@@ -1,9 +1,14 @@
 @section('title', "Posts")
 <div>
     @include('livewire.create')
+    @include('livewire.update')
+    @include('livewire.delete')
     <div class="container">
-        <div class="row">
+        <div class="row mt-5">
             <div class="col-md-8 offset-2">
+                @if(session('message'))
+                    <p class="alert alert-success">{{ session('message') }}</p>
+                @endif
                 <div class="card ">
                     <div class="card-header d-flex">
                         <h3>Posts</h3>
@@ -17,6 +22,7 @@
                                 <tr>
                                     <th>Title</th>
                                     <th>Body</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -24,6 +30,12 @@
                                     <tr>
                                         <td>{{ $post->title }}</td>
                                         <td>{{  $post->body }}</td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <button type="button" wire:click.prevent="edit({{ $post->id }})" data-bs-toggle="modal" data-bs-target="#editPost" class="btn btn-warning btn-sm">Edit</button>
+                                                <button type="button" wire:click.prevent="deleteModal({{ $post->id }})" data-bs-toggle="modal" data-bs-target="#deletePost" class="btn btn-danger btn-sm ml-2">Delete</button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
