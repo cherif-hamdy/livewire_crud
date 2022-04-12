@@ -18,3 +18,9 @@ Route::get('/', function () {
 });
 
 Route::get('/posts', \App\Http\Livewire\Post::class);
+
+Route::get('/register', \App\Http\Livewire\Register::class);
+
+Route::get('/login' , function(){
+    return "Login";
+})->name('login');
