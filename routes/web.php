@@ -17,10 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/posts', \App\Http\Livewire\Post::class);
+Route::get('/posts', \App\Http\Livewire\Post::class)->middleware('auth')->name('home');
 
-Route::get('/register', \App\Http\Livewire\Register::class);
+Route::group(['middleware' => 'guest'], function (){
+    Route::get('/register', \App\Http\Livewire\Register::class)->name('register');
 
-Route::get('/login' , function(){
-    return "Login";
-})->name('login');
+    Route::get('/login' ,\App\Http\Livewire\Login::class)->name('login');
+});
+

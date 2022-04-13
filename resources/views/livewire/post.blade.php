@@ -11,18 +11,18 @@
                 @endif
                 <div class="card ">
                     <div class="card-header d-flex">
-                        <h3>Posts</h3>
+                        <h3 class="me-auto">Posts</h3>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPost">
                             Add Post
                           </button>
                     </div>
                     <div class="card-body">
                         <table class="table table-striped table-bordered">
-                            <thead>
+                            <thead class="text-center">
                                 <tr>
                                     <th>Title</th>
                                     <th>Body</th>
-                                    <th>Action</th>
+                                    <th width="15%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,9 +31,9 @@
                                         <td>{{ $post->title }}</td>
                                         <td>{{  $post->body }}</td>
                                         <td>
-                                            <div class="d-flex">
+                                            <div class="d-flex justify-content-between">
                                                 <button type="button" wire:click.prevent="edit({{ $post->id }})" data-bs-toggle="modal" data-bs-target="#editPost" class="btn btn-warning btn-sm">Edit</button>
-                                                <button type="button" wire:click.prevent="deleteModal({{ $post->id }})" data-bs-toggle="modal" data-bs-target="#deletePost" class="btn btn-danger btn-sm ml-2">Delete</button>
+                                                <button type="button" wire:click.prevent="deleteModal({{ $post->id }})" data-bs-toggle="modal" data-bs-target="#deletePost" class="btn btn-danger btn-sm ">Delete</button>
                                             </div>
                                         </td>
                                     </tr>

@@ -76,11 +76,6 @@ class Post extends Component
     {
         $post = ModelsPost::where([['id', $this->ids],['deleted', 0]])->update(['deleted' => 1]);
 
-//        dd($post);
-//        $post->update([
-//            'deleted' => 1
-//        ]);
-
         session()->flash('message', 'Post Deleted Successfully');
 
         $this->resetFields();
