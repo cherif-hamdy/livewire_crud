@@ -10,6 +10,7 @@ class Post extends Component
     public $title;
     public $body;
     public $ids;
+    public $user_id;
 
     protected $rules = [
         'title' => 'required|string',
@@ -29,9 +30,10 @@ class Post extends Component
 
     public function store()
     {
+
         $data = $this->validate();
 
-        ModelsPost::create($data);
+        ModelsPost::create(array_merge($data, ['user_id' => auth()->id()]));
 
         session()->flash('message', 'Post Added Successfully');
 
@@ -43,6 +45,10 @@ class Post extends Component
     public function edit($id)
     {
         $post = ModelsPost::where([['id', $id],['deleted', 0]])->first();
+        if (auth()->user()->cannot('update', $post))
+        {
+            abort(403);
+        }
         $this->title = $post->title;
         $this->body = $post->body;
         $this->ids = $post->id;
@@ -51,7 +57,10 @@ class Post extends Component
     public function update()
     {
         $post = ModelsPost::where([['id', $this->ids],['deleted', 0]])->first();
-
+        if (auth()->user()->cannot('update', $post))
+        {
+            abort(403);
+        }
         $data = $this->validate();
 
         $post->update($data);
@@ -67,6 +76,10 @@ class Post extends Component
     public function deleteModal($id)
     {
         $post = ModelsPost::where([['id', $id],['deleted', 0]])->first();
+        if (auth()->user()->cannot('update', $post))
+        {
+            abort(403);
+        }
         $this->title = $post->title;
         $this->body = $post->body;
         $this->ids = $post->id;
@@ -74,7 +87,7 @@ class Post extends Component
 
     public function delete()
     {
-        $post = ModelsPost::where([['id', $this->ids],['deleted', 0]])->update(['deleted' => 1]);
+        $post = ModelsPost::where([['id', $this->ids],['user_id', auth()->id()],['deleted', 0]])->update(['deleted' => 1]);
 
         session()->flash('message', 'Post Deleted Successfully');
 
